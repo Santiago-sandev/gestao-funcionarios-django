@@ -1,6 +1,6 @@
 # 🏢 Sistema de Gestão de Funcionários e Projetos
 
-Sistema completo de gestão de funcionários e projetos desenvolvido com **Django** e **MySQL**, ideal para portfólio e aprendizado.
+Sistema completo de gestão de funcionários e projetos desenvolvido com **Django** e **MySQL**, para aprendizado.
 
 ## 🚀 Tecnologias Utilizadas
 
