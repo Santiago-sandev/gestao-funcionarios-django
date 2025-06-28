@@ -1,0 +1,116 @@
+{% extends 'funcionarios/base.html' %}
+
+{% block title %}Dashboard - Gestão de Funcionários{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </h1>
+    </div>
+</div>
+
+<!-- Cards de estatísticas -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card stats-card">
+            <div class="card-body text-center">
+                <i class="fas fa-users fa-2x mb-2"></i>
+                <h3>{{ total_funcionarios }}</h3>
+                <p class="mb-0">Total de Funcionários</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card stats-card-secondary">
+            <div class="card-body text-center">
+                <i class="fas fa-user-check fa-2x mb-2"></i>
+                <h3>{{ funcionarios_ativos }}</h3>
+                <p class="mb-0">Funcionários Ativos</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card stats-card">
+            <div class="card-body text-center">
+                <i class="fas fa-project-diagram fa-2x mb-2"></i>
+                <h3>{{ total_projetos }}</h3>
+                <p class="mb-0">Total de Projetos</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card stats-card-secondary">
+            <div class="card-body text-center">
+                <i class="fas fa-play-circle fa-2x mb-2"></i>
+                <h3>{{ projetos_em_andamento }}</h3>
+                <p class="mb-0">Projetos em Andamento</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Últimos registros -->
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-user-plus"></i> Últimos Funcionários
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if ultimos_funcionarios %}
+                    <div class="list-group list-group-flush">
+                        {% for funcionario in ultimos_funcionarios %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ funcionario.nome }}</strong>
+                                <br>
+                                <small class="text-muted">{{ funcionario.cargo }}</small>
+                            </div>
+                            <span class="badge bg-{% if funcionario.status == 'ativo' %}success{% else %}secondary{% endif %}">
+                                {{ funcionario.get_status_display }}
+                            </span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">Nenhum funcionário cadastrado.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-plus-circle"></i> Últimos Projetos
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if ultimos_projetos %}
+                    <div class="list-group list-group-flush">
+                        {% for projeto in ultimos_projetos %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ projeto.nome }}</strong>
+                                <br>
+                                <small class="text-muted">{{ projeto.funcionarios.count }} funcionários</small>
+                            </div>
+                            <span class="badge bg-{% if projeto.status == 'em_andamento' %}warning{% elif projeto.status == 'concluido' %}success{% else %}secondary{% endif %}">
+                                {{ projeto.get_status_display }}
+                            </span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">Nenhum projeto cadastrado.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

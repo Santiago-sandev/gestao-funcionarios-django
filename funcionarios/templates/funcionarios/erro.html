@@ -1,0 +1,14 @@
+{% extends 'funcionarios/base.html' %}
+
+{% block title %}Erro{% endblock %}
+
+{% block content %}
+<div class="alert alert-danger mt-4" role="alert">
+    <h4 class="alert-heading">Ops!</h4>
+    <p>{{ mensagem }}</p>
+    <hr>
+    <a href="{% url 'funcionarios:home' %}" class="btn btn-primary">
+        <i class="fas fa-home"></i> Voltar para o início
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'funcionarios/base.html' %}
+
+{% block title %}{{ projeto.nome }} - Detalhes{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'funcionarios:home' %}">Início</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'funcionarios:lista_projetos' %}">Projetos</a></li>
+                <li class="breadcrumb-item active">{{ projeto.nome }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="mb-0">
+                    <i class="fas fa-project-diagram"></i> {{ projeto.nome }}
+                </h2>
+            </div>
+            <div class="card-body">
+                <p><strong>Descrição:</strong> {{ projeto.descricao }}</p>
+                <p><strong>Status:</strong>
+                    <span class="badge bg-{% if projeto.status == 'em_andamento' %}warning{% elif projeto.status == 'concluido' %}success{% else %}secondary{% endif %}">
+                        {{ projeto.get_status_display }}
+                    </span>
+                </p>
+                <p><strong>Data de Início:</strong> {{ projeto.data_inicio|date:"d/m/Y" }}</p>
+                <p><strong>Data Prevista de Término:</strong> {{ projeto.data_termino_previsto|date:"d/m/Y" }}</p>
+                <p><strong>Cadastrado em:</strong> {{ projeto.data_criacao|date:"d/m/Y H:i" }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-users"></i> Funcionários neste Projeto
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if funcionarios %}
+                    <ul class="list-group list-group-flush">
+                        {% for funcionario in funcionarios %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{% url 'funcionarios:detalhe_funcionario' funcionario.id %}">
+                                {{ funcionario.nome }}
+                            </a>
+                            <span class="badge bg-{% if funcionario.status == 'ativo' %}success{% else %}secondary{% endif %}">
+                                {{ funcionario.get_status_display }}
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">Nenhum funcionário vinculado.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
